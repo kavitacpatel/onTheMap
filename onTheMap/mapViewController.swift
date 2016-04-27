@@ -29,19 +29,18 @@ class mapViewController: UIViewController, MKMapViewDelegate {
     {
         mapView.removeAnnotations(self.mapView.annotations)
         locationAuthStatus()
-        let locationParsingObj = parseStudentLocation()
-        locationParsingObj.studentInformations.removeAll()
+       // parseStudentLocation.sharedInstance.studentInformations.removeAll()
         var annotations = [MKPointAnnotation]()
-        locationParsingObj.getStudentLocation({ (data) in
-            do
+        parseStudentLocation.sharedInstance.getStudentLocation
+        { (data, err) in
+            if err == nil
             {
-                let locationData = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? NSDictionary
-                if let list = locationData!["results"] as? [[String: AnyObject]]
+                if let list = data!["results"] as? [[String: AnyObject]]
                 {
                     for result in list
                     {
                         let listobj = studentInformation(result: result)
-                        locationParsingObj.studentInformations.append(listobj)
+                        parseStudentLocation.sharedInstance.locations.append(listobj)
                         let lat = CLLocationDegrees(listobj.latitude)
                         let long = CLLocationDegrees(listobj.longitude)
                         let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
@@ -51,16 +50,16 @@ class mapViewController: UIViewController, MKMapViewDelegate {
                         annotation.subtitle = listobj.mediaURL
                         annotations.append(annotation)
                     }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.mapView.addAnnotations(annotations)
+                    }
                 }
             }
-            catch let err as NSError
+            else
             {
-                print(err.description)
+                self.alertMsg("Student Info", msg: err!.description )
             }
-            dispatch_async(dispatch_get_main_queue()) {
-                self.mapView.addAnnotations(annotations)
-            }
-        })
+        }
     }
 
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView?
@@ -77,16 +76,30 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         else {
             pinView!.annotation = annotation
         }
-        
         return pinView
     }
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl)
     {
         if control == view.rightCalloutAccessoryView
         {
-            UIApplication.sharedApplication().openURL(NSURL(string: (view.annotation!.subtitle!)!)!)
+            let urlStr = view.annotation?.subtitle
+            if urlStr == nil
+            {
+                alertMsg("Link Error", msg: "Student's Link is Nil" )
+            }
+            else
+            {
+                let url = NSURL(string: (urlStr)!!)
+                if UIApplication.sharedApplication().canOpenURL(url!)
+                {
+                      UIApplication.sharedApplication().openURL(url!)
+                }
+                else
+                {
+                    alertMsg("Link Error", msg: "Student's Link is Not Valid Formar" )
+                }
+            }
         }
-        
     }
     @IBAction func refreshBtn(sender: AnyObject)
     {
@@ -120,5 +133,4 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-
-    }
+}

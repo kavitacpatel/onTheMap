@@ -11,8 +11,6 @@ import UIKit
 class tableViewController: UITableViewController
 {
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    let locationParsingObj = parseStudentLocation()
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -25,7 +23,7 @@ class tableViewController: UITableViewController
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return locationParsingObj.studentInformations.count
+        return  parseStudentLocation.sharedInstance.locations.count
     }
 
     @IBAction func newPinPostBtn(sender: AnyObject)
@@ -47,41 +45,53 @@ class tableViewController: UITableViewController
     {
         if let cell = tableView.dequeueReusableCellWithIdentifier("tableCell", forIndexPath: indexPath) as? tableViewCell
         {
-            cell.configCell(locationParsingObj.studentInformations[indexPath.row])
+            cell.configCell( parseStudentLocation.sharedInstance.locations[indexPath.row])
             return cell
         }
         return UITableViewCell()
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let url = NSURL(string: locationParsingObj.studentInformations[indexPath.row].mediaURL)
-        UIApplication.sharedApplication().openURL(url!)
+        let url = NSURL(string: ( parseStudentLocation.sharedInstance.locations[indexPath.row].mediaURL))
+        if url == nil
+        {
+            alertMsg("Link Error", msg: "Student's Link is Nil" )
+        }
+        else
+        {
+          if UIApplication.sharedApplication().canOpenURL(url!)
+            {
+                UIApplication.sharedApplication().openURL(url!)
+            }
+            else
+            {
+                alertMsg("Link Error", msg: "Invalid Format Of Shared Link" )
+            }
+        }
     }
     func refreshData()
     {
-        locationParsingObj.studentInformations.removeAll()
-        locationParsingObj.getStudentLocation({ (data) in
-            do
+       //  parseStudentLocation.sharedInstance.locations.removeAll()
+         parseStudentLocation.sharedInstance.getStudentLocation { (data, err) in
+            if err == nil
             {
-                let locationData = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? NSDictionary
-                if let list = locationData!["results"] as? [[String: AnyObject]]
+                dispatch_async(dispatch_get_main_queue())
                 {
-                    for result in list
-                    {
-                        let listobj = studentInformation(result: result)
-                        self.locationParsingObj.studentInformations.append(listobj)
-                    }
+                    self.tableView.reloadData()
                 }
             }
-            catch let err as NSError
+            else
             {
-                print(err.description)
+               self.alertMsg("List Error", msg: (err?.description)! )
             }
-            dispatch_async(dispatch_get_main_queue()) {
-                self.tableView.reloadData()
-            }
-        })
-        
+            
+        }
+    }
+    func alertMsg(title: String, msg: String)
+    {
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 
   }

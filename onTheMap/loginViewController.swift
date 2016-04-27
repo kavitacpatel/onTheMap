@@ -37,16 +37,16 @@ class loginViewController: UIViewController, UITextFieldDelegate {
     {
         if emailText.text == "" || passwordText.text == ""
         {
-            alertMsg("Udacity Login", msg: "Please Enter Valid Email/ Password.")
+            alertMsg("Udacity Login", msg: "Please Enter Valid Email/ Password." )
             return
         }
         else
         {
             let udacityObj = udacityApi()
-            udacityObj.login(self.emailText.text!, password: self.passwordText.text!) { (data: NSDictionary?, response: NSURLResponse?,error: NSError?)-> Void in
+            udacityObj.login(self.emailText.text!, password: self.passwordText.text!) { (data: NSDictionary?,error: NSError?)-> Void in
                         if error != nil
                         {
-                            self.alertMsg("Udacity Login", msg: "Udacity Login Failed.")
+                            self.alertMsg("Udacity Login", msg: error.debugDescription )
                             return
                         }
                         else
@@ -69,17 +69,21 @@ class loginViewController: UIViewController, UITextFieldDelegate {
         
                 if err != nil
                 {
-                    self.alertMsg("Facebook Login", msg: "Facebook Login Failed.")
+                    self.alertMsg("Facebook Login", msg: "Account Not Found" )
                     return
+                }
+                else if fbResult.isCancelled
+                {
+                   self.alertMsg("Facebook Login", msg: "Facebook Request has been Cancelled" )
                 }
                 else
                 {
                     let accesstoken = FBSDKAccessToken.currentAccessToken().tokenString
-                    let udacityObj = udacityApi()
-                    udacityObj.fbLogin(accesstoken, completion: { (data: NSData?, response: NSURLResponse?,error: NSError?) in
+                      let udacityObj = udacityApi()
+                       udacityObj.fbLogin(accesstoken, completion: { (data: NSData?, response: NSURLResponse?,error: NSError?) in
                         if error != nil
                         {
-                            self.alertMsg("Facebook Login", msg: "Facebook Login Failed.")
+                            self.alertMsg("Facebook Login", msg: "Facebook Login Failed" )
                             return
                         }
                         dispatch_async(dispatch_get_main_queue())
@@ -99,7 +103,7 @@ class loginViewController: UIViewController, UITextFieldDelegate {
             
             if ((error) != nil)
             {
-                self.alertMsg("Facebook Login", msg: "Facebook Request Failed")
+                self.alertMsg("Facebook Login", msg: "Connection Problem." )
             }
             else
             {
@@ -115,7 +119,7 @@ class loginViewController: UIViewController, UITextFieldDelegate {
         {
            if error == 403
            {
-            alertMsg("Udacity Account", msg: "Account Not Found or Invalid")
+            alertMsg("Udacity Account", msg: "Account Not Found or Invalid" )
             }
         }
         else
@@ -125,7 +129,7 @@ class loginViewController: UIViewController, UITextFieldDelegate {
             udacityObj.getStudent(uniqueId!, completionHandler: { (result: NSDictionary?, err: NSError?) -> Void in
                 if ((err) != nil)
                 {
-                    self.alertMsg("Udacity Login", msg: "Udacity Request Failed")
+                    self.alertMsg("Udacity Login", msg: "Udacity Connection Problem" )
                 }
                 else
                 {
@@ -141,7 +145,12 @@ class loginViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
+    func alertMsg(title: String, msg: String)
+    {
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
     @IBAction func signUPBtnPressed(sender: AnyObject)
     {
         let openURL = "https://www.udacity.com/account/auth#!/signup"
@@ -151,12 +160,6 @@ class loginViewController: UIViewController, UITextFieldDelegate {
     {
         emailText.text = ""
         passwordText.text = ""
-    }
-    func alertMsg(title: String, msg: String)
-    {
-        let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
     }
     
 }

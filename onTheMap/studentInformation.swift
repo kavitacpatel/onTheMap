@@ -30,6 +30,15 @@ import Foundation
             uniqueKey = result.valueForKeyPath("uniqueKey") as! String
             
         }
+       static func locationsFromResults(results: [[String : AnyObject]]) -> [studentInformation]
+       {
+         var locations = [studentInformation]()
+         for result in results
+         {
+            locations.append(studentInformation(result: result))
+         }
+        return locations
+    }
         
 }
 

@@ -10,22 +10,33 @@ import Foundation
 
 class parseStudentLocation: NSObject
 {
-    var studentInformations = [studentInformation]()
+   // var studentInformations = [studentInformation]()
+    static let sharedInstance = parseStudentLocation()
     
-    func getStudentLocation(completionHandler: (data: NSData) -> Void )
+    var locations: [studentInformation]
+    
+     override init() {
+        locations = [studentInformation]()
+        super.init()
+    }
+    func getStudentLocation(completionHandler: (data: NSDictionary?, err: NSError?) -> Void )
    {
         let request = NSMutableURLRequest(URL: NSURL(string: "\(BASE_URL)?order=-updatedAt")!)
         request.addValue("\(ParseAPIId)", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("\(ParseAPIKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
+
             if error != nil
             {
-                return
+                completionHandler(data: nil, err: error)
             }
+            
            else
             {
-                completionHandler(data: data!)
+                self.parsedResult(data!, completionHandler: { (result, err) in
+                    completionHandler(data: result, err: nil)
+                })
             }
         }
         task.resume()
@@ -57,17 +68,24 @@ class parseStudentLocation: NSObject
             }
             else
             {
-                let parsedResult: AnyObject?
-                do {
-                    parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
-                    completionHandler(result: parsedResult, error: nil)
-                } catch
-                {
-                    
-                }
+               self.parsedResult(data!, completionHandler: { (result, err) in
+                completionHandler(result: result, error: nil)
+               })
             }
         }
         task.resume()
+    }
+    
+    func parsedResult(data: NSData, completionHandler: (result: NSDictionary?, err: NSError?) -> Void)
+    {
+        let parsedResult: NSDictionary?
+        do {
+            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as? NSDictionary
+            completionHandler(result: parsedResult!, err: nil)
+        } catch let err as NSError
+        {
+            completionHandler(result: nil, err: err)
+        }
     }
     
     // pin new location
@@ -103,7 +121,7 @@ class parseStudentLocation: NSObject
     }
    
     //Search if a student's location exists. It requires the unique Key
-    func existsStudentLocation( uniqueKey: String, completionHandler: (data: NSData!, err: NSError!) -> Void ) {
+    func existsStudentLocation( uniqueKey: String, completionHandler: (data: NSDictionary?, err: NSError?) -> Void ) {
         
         let urlString = "\(BASE_URL)?where=%7B%22uniqueKey%22%3A%22\(uniqueKey)%22%7D"
         let url = NSURL(string: urlString)
@@ -113,7 +131,17 @@ class parseStudentLocation: NSObject
         request.addValue("\(ParseAPIId)", forHTTPHeaderField: "X-Parse-Application-Id")
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
-                 completionHandler(data: data, err: error)
+            if error != nil
+            {
+                completionHandler(data: nil, err: error)
+            }
+            else
+            {
+                self.parsedResult(data!, completionHandler: { (result, err) in
+                    completionHandler(data: result, err: nil)
+                })
+            }
+
             }
         task.resume()
     }

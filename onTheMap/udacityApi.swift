@@ -7,10 +7,9 @@
 //
 
 import Foundation
-
 import UIKit
 
-class udacityApi : NSObject
+class udacityApi : parseStudentLocation
 {
     
     var userID: String?
@@ -20,12 +19,12 @@ class udacityApi : NSObject
         var first = ""
         var last = ""
         var fullname: String
-            {
+        {
             return "\(first) \(last)"
         }
     }
     //Udacity Email Login
-    func login (userEmail: String, password: String, loginCompletion: (NSDictionary?, NSURLResponse?, NSError?) -> Void)
+    func login (userEmail: String, password: String, completion: (NSDictionary?, NSError?) -> Void)
     {
         let request = NSMutableURLRequest(URL: NSURL(string: "\(SESSION_URL)")!)
         let httpBodyText = "{\"udacity\": {\"username\": \"\(userEmail)\", \"password\": \"\(password)\"}}"
@@ -36,25 +35,38 @@ class udacityApi : NSObject
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5))
-            let parsedResult = (try! NSJSONSerialization.JSONObjectWithData(newData, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-            loginCompletion(parsedResult, response, error)
+            if error != nil
+            {
+                completion(nil, error)
+            }
+            else
+            {
+                self.parsedResult(newData, completionHandler: { (result, err) in
+                    completion(result, nil)
+                })
+            }
+
         }
         task.resume()
     }
     
     //After successful login, get User data
-    func getStudent(studentid: String, completionHandler: (NSDictionary?, NSError?) -> Void) {
+    func getStudent(studentid: String, completionHandler: (NSDictionary?, NSError?) -> Void)
+    {
         let request = NSMutableURLRequest(URL: NSURL(string: "\(USER_URL)\(studentid)")!)
         let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request)
-        { data, response, error in
-            if error == nil
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5))
+            if error != nil
             {
-               let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5))
-               let result = (try! NSJSONSerialization.JSONObjectWithData(newData, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-               completionHandler(result, error)
+                completionHandler(nil, error)
             }
-        }
+            else
+            {
+                self.parsedResult(newData, completionHandler: { (result, err) in
+                    completionHandler(result, nil)
+                })
+            }        }
         task.resume()
     }
     //If user has signed up Udacity with facebook than Login
@@ -95,7 +107,8 @@ class udacityApi : NSObject
     //Get 100 Students in order
     func loadStudents(loadStudentsCompletion: (NSData?, NSURLResponse?, NSError?)->Void)
     {
-        let request = NSMutableURLRequest(URL: NSURL(string: "\(BASE_URL)?limit=100&order=-updatedAt")!)
+       // let request = NSMutableURLRequest(URL: NSURL(string: "\(BASE_URL)?limit=100&order=-updatedAt")!)
+       let request = NSMutableURLRequest(URL: NSURL(string: "\(BASE_URL)")!)
         request.addValue("\(ParseAPIId)", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("\(ParseAPIKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = NSURLSession.sharedSession()

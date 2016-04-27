@@ -32,14 +32,11 @@ class postPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
         super.viewWillAppear(true)
         let studentObj = parseStudentLocation()
         studentObj.existsStudentLocation(udacityClient.Client.uniqueKey) { (data, error)-> Void in
-                do
-                {
-                   
-                    let locationData = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? NSDictionary
-                
-                   if locationData?.count > 0
+               if error == nil
+               {
+                    if data?.count > 0
                     {
-                        if let dictionary = locationData as? [String: AnyObject]
+                        if let dictionary = data as? [String: AnyObject]
                         {
                             let result = dictionary["results"] as? [[String: AnyObject]]
                             if result?.count > 0
@@ -50,8 +47,9 @@ class postPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                         }
                     }
                 }
-            catch
+            else
             {
+                self.alertMsg("exists student", msg: error!.description)
                 self.setHIdden(true)
             }
         }
@@ -125,13 +123,13 @@ class postPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                 }
                 else
                 {
-                    self.alertMsg("FindOnMap-Error", msg: "Please Enter Valid Location.")
+                    self.alertMsg("FindOnMap-Error", msg: (err?.description)!)
                 }
             })
         }
         else
         {
-            alertMsg("FindOnMap-Error", msg: "Please Enter Valid Location.")
+            alertMsg("FindOnMap-Error", msg: "Please Enter Location.")
         }
 
     }
@@ -144,7 +142,7 @@ class postPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
     {
         if validUrl(shareLinkTxt.text!) && shareLinkTxt.text != nil
         {
-           udacityClient.Client.mediaURL = self.shareLinkTxt.text!
+                       udacityClient.Client.mediaURL = self.shareLinkTxt.text!
                         self.setHIdden(true)
                         
                         let clientDict = self.user.clientDict(udacityClient.Client.first, last: udacityClient.Client.last, latitude: udacityClient.Client.latitude, longitude: udacityClient.Client.longitude, mapstring: udacityClient.Client.mapString, mediaurl: udacityClient.Client.mediaURL, objectid: udacityClient.Client.objectId, uniqueid: udacityClient.Client.uniqueKey) as NSDictionary
@@ -187,7 +185,7 @@ class postPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                    }
         else
         {
-          self.alertMsg("Link-Error", msg: "Enter Valid Url Link in HTTP Format.")
+          alertMsg("Link-Error", msg: "Enter Valid Url Link in HTTP Format.")
         }
     }
     func validUrl(scheme: String) -> Bool {
@@ -196,7 +194,6 @@ class postPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
         }
         return false
     }
-    
     func alertMsg(title: String, msg: String)
     {
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
