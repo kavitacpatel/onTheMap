@@ -1,0 +1,206 @@
+//
+//  postPinViewController.swift
+//  onTheMap
+//
+//  Created by kavita patel on 4/23/16.
+//  Copyright © 2016 kavita patel. All rights reserved.
+//
+
+import MapKit
+import UIKit
+
+class postPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate
+{
+
+    @IBOutlet weak var backView: UIView!
+    @IBOutlet weak var findOnMapBtn: UIButton!
+    @IBOutlet weak var shareLinkTxt: UITextField!
+    @IBOutlet weak var submitBtn: UIButton!
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var studyLbl: UILabel!
+    @IBOutlet weak var locationTxt: UITextField!
+    var Id: String?
+    let user = udacityClient()
+    let annotation = MKPointAnnotation()
+    
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        let studentObj = parseStudentLocation()
+        studentObj.existsStudentLocation(udacityClient.Client.uniqueKey) { (data, error)-> Void in
+                do
+                {
+                   
+                    let locationData = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? NSDictionary
+                
+                   if locationData?.count > 0
+                    {
+                        if let dictionary = locationData as? [String: AnyObject]
+                        {
+                            let result = dictionary["results"] as? [[String: AnyObject]]
+                            if result?.count > 0
+                            {
+                            udacityClient.Client.objectId = result![0]["objectId"] as! String
+                            self.Id =  udacityClient.Client.objectId
+                            }
+                        }
+                    }
+                }
+            catch
+            {
+                self.setHIdden(true)
+            }
+        }
+        
+    }
+    @IBAction func cancelBtnPressed(sender: AnyObject)
+    {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    func setHIdden(value: Bool)
+    {
+        backView.hidden = !value
+        studyLbl.hidden = !value
+        findOnMapBtn.hidden = !value
+        locationTxt.hidden = !value
+        shareLinkTxt.hidden = value
+        mapView.hidden = value
+        submitBtn.hidden = value
+
+    }
+    @IBAction func findOnMapBtnPressed(sender: AnyObject)
+    {
+        if udacityClient.Client.objectId != ""
+        {
+
+           let alert = UIAlertController(title: "Update?", message: "You Already Have a Location. Do You Want To Overwrite?", preferredStyle: .Alert)
+           let updateAction = UIAlertAction(title: "Overwrite", style: .Default)
+           { (action) in
+              udacityClient.Client.mapString = self.locationTxt.text!
+              self.overWriteData()
+            }
+           let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action) in
+            
+           }
+            alert.addAction(updateAction)
+            alert.addAction(cancelAction)
+            dispatch_async(dispatch_get_main_queue())
+             {
+                 self.presentViewController(alert, animated: true, completion: nil)
+             }
+        }
+        else
+        {
+            udacityClient.Client.mapString = self.locationTxt.text!
+            self.overWriteData()
+        }
+        
+    }
+    
+    func overWriteData()
+    {
+        if locationTxt.text != nil
+        {
+            CLGeocoder().geocodeAddressString(locationTxt.text!, completionHandler: { (placeMark: [CLPlacemark]?,err: NSError?)-> Void in
+                if err == nil
+                {
+                    let coordinate = placeMark![0].location?.coordinate
+                    if (!CLLocationCoordinate2DIsValid(coordinate!))
+                    {
+                        self.alertMsg("FindOnMap-Error", msg: "Please Enter Valid Location.")
+                        return
+                    }
+                    self.annotation.coordinate = coordinate!
+                    self.annotation.subtitle = self.shareLinkTxt.text
+                    self.annotation.title = ""
+                    udacityClient.Client.mapString = self.locationTxt.text!
+                    udacityClient.Client.latitude = coordinate!.latitude as Double
+                    udacityClient.Client.longitude = coordinate!.longitude as Double
+                    self.mapView.addAnnotations([self.annotation])
+                    self.setHIdden(false)
+                }
+                else
+                {
+                    self.alertMsg("FindOnMap-Error", msg: "Please Enter Valid Location.")
+                }
+            })
+        }
+        else
+        {
+            alertMsg("FindOnMap-Error", msg: "Please Enter Valid Location.")
+        }
+
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool
+    {
+        textField.resignFirstResponder()
+        return true
+    }
+    @IBAction func submitBtnPressed(sender: AnyObject)
+    {
+        if validUrl(shareLinkTxt.text!) && shareLinkTxt.text != nil
+        {
+           udacityClient.Client.mediaURL = self.shareLinkTxt.text!
+                        self.setHIdden(true)
+                        
+                        let clientDict = self.user.clientDict(udacityClient.Client.first, last: udacityClient.Client.last, latitude: udacityClient.Client.latitude, longitude: udacityClient.Client.longitude, mapstring: udacityClient.Client.mapString, mediaurl: udacityClient.Client.mediaURL, objectid: udacityClient.Client.objectId, uniqueid: udacityClient.Client.uniqueKey) as NSDictionary
+                        let saveLocation = parseStudentLocation()
+                        if let objectId = self.Id
+                        {
+                            // if user exists than update
+                            saveLocation.putStudentLocation(objectId, data: clientDict as! [String : AnyObject], completionHandler: { (result, error) in
+                                if error == nil
+                                {
+                                    dispatch_async(dispatch_get_main_queue())
+                                    {
+                                        self.dismissViewControllerAnimated(true, completion: nil)
+                                        self.alertMsg("Location", msg: "New Location Added Successfully")
+                                    }
+                                }
+                                else
+                                {
+                                    self.alertMsg("Location", msg: "Location is not loaded. Try Again..")
+                                }
+                            })
+                        }
+                        else
+                        {
+                            saveLocation.postStudentLocation(clientDict as! [String : AnyObject], completionHandler: { (result, error) in
+                                if error == nil
+                                {
+                                    dispatch_async(dispatch_get_main_queue())
+                                    {
+                                      self.dismissViewControllerAnimated(true, completion: nil)
+                                      self.alertMsg("Location", msg: "New Location Added Successfully")
+                                    }
+                                }
+                                else
+                                {
+                                    self.alertMsg("Location", msg: "Location is not loaded. Try Again..")
+                                }
+                            })
+                        }
+                   }
+        else
+        {
+          self.alertMsg("Link-Error", msg: "Enter Valid Url Link in HTTP Format.")
+        }
+    }
+    func validUrl(scheme: String) -> Bool {
+        if let url = NSURL.init(string: scheme) {
+            return UIApplication.sharedApplication().canOpenURL(url)
+        }
+        return false
+    }
+    
+    func alertMsg(title: String, msg: String)
+    {
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+}
