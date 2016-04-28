@@ -53,10 +53,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             {
                 if let list = data!["results"] as? [[String: AnyObject]]
                 {
-                    print(list)
                     for result in list
                     {
-                        print(result)
                         let listobj = StudentInformation(result: result)
                         ClientClass.sharedInstance.locations.append(listobj)
                         let lat = CLLocationDegrees(listobj.latitude)
