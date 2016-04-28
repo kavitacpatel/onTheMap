@@ -12,7 +12,7 @@ import FBSDKLoginKit
 
 
 
-class loginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var facebookBtn: UIButton!
@@ -44,12 +44,19 @@ class loginViewController: UIViewController, UITextFieldDelegate {
         {
             let udacityObj = udacityApi()
             udacityObj.login(self.emailText.text!, password: self.passwordText.text!) { (data: NSDictionary?,error: NSError?)-> Void in
-                        if error != nil
+                  if data == nil && error == nil
+                  {
+                    dispatch_async(dispatch_get_main_queue())
+                    {
+                       self.alertMsg("Network Error", msg: "No Data Found")
+                    }
+                  }
+                  else if error != nil
                         {
                             self.alertMsg("Udacity Login", msg: error.debugDescription )
                             return
                         }
-                        else
+                  else
                         {
                             dispatch_async(dispatch_get_main_queue())
                             {
@@ -66,7 +73,6 @@ class loginViewController: UIViewController, UITextFieldDelegate {
     {
          let fbLogin = FBSDKLoginManager()
             fbLogin.logInWithReadPermissions(["email"], fromViewController: self, handler: { (fbResult: FBSDKLoginManagerLoginResult!,err:  NSError!) in
-        
                 if err != nil
                 {
                     self.alertMsg("Facebook Login", msg: "Account Not Found" )
@@ -80,8 +86,15 @@ class loginViewController: UIViewController, UITextFieldDelegate {
                 {
                     let accesstoken = FBSDKAccessToken.currentAccessToken().tokenString
                       let udacityObj = udacityApi()
-                       udacityObj.fbLogin(accesstoken, completion: { (data: NSData?, response: NSURLResponse?,error: NSError?) in
-                        if error != nil
+                       udacityObj.fbLogin(accesstoken, completion: { (data: NSData? ,error: NSError?) in
+                        if data == nil && error == nil
+                        {
+                            dispatch_async(dispatch_get_main_queue())
+                            {
+                                self.alertMsg("Network Error", msg: "No Data Found")
+                            }
+                        }
+                        else if error != nil
                         {
                             self.alertMsg("Facebook Login", msg: "Facebook Login Failed" )
                             return

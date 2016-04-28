@@ -8,9 +8,10 @@
 
 import UIKit
 
-class tableViewController: UITableViewController
+class TableViewController: UITableViewController
 {
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let parseObj = parseStudentLocation()
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -21,15 +22,12 @@ class tableViewController: UITableViewController
       super.viewDidAppear(animated)
       refreshData()
     }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return  parseStudentLocation.sharedInstance.locations.count
+        return clientClass.sharedInstance.locations.count
     }
 
-    @IBAction func newPinPostBtn(sender: AnyObject)
-    {
-        performSegueWithIdentifier("newPinSegue", sender: sender)
-    }
     @IBAction func refreshBtn(sender: AnyObject)
     {
         refreshData()
@@ -45,14 +43,14 @@ class tableViewController: UITableViewController
     {
         if let cell = tableView.dequeueReusableCellWithIdentifier("tableCell", forIndexPath: indexPath) as? tableViewCell
         {
-            cell.configCell( parseStudentLocation.sharedInstance.locations[indexPath.row])
+            cell.configCell( clientClass.sharedInstance.locations[indexPath.row])
             return cell
         }
         return UITableViewCell()
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let url = NSURL(string: ( parseStudentLocation.sharedInstance.locations[indexPath.row].mediaURL))
+        let url = NSURL(string: ( clientClass.sharedInstance.locations[indexPath.row].mediaURL))
         if url == nil
         {
             alertMsg("Link Error", msg: "Student's Link is Nil" )
@@ -71,8 +69,7 @@ class tableViewController: UITableViewController
     }
     func refreshData()
     {
-       //  parseStudentLocation.sharedInstance.locations.removeAll()
-         parseStudentLocation.sharedInstance.getStudentLocation { (data, err) in
+         parseObj.getStudentLocation { (data, err) in
             if err == nil
             {
                 dispatch_async(dispatch_get_main_queue())

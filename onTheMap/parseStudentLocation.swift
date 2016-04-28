@@ -10,15 +10,7 @@ import Foundation
 
 class parseStudentLocation: NSObject
 {
-   // var studentInformations = [studentInformation]()
-    static let sharedInstance = parseStudentLocation()
-    
-    var locations: [studentInformation]
-    
-     override init() {
-        locations = [studentInformation]()
-        super.init()
-    }
+   
     func getStudentLocation(completionHandler: (data: NSDictionary?, err: NSError?) -> Void )
    {
         let request = NSMutableURLRequest(URL: NSURL(string: "\(BASE_URL)?order=-updatedAt")!)

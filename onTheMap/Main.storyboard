@@ -10,7 +10,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="loginViewController" customModule="onTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="onTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -54,7 +54,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="emailLoginBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ilr-Wc-63x"/>
+                                    <action selector="emailLoginBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0gV-RG-FnH"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I2o-2L-i41">
@@ -86,7 +86,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="signUPBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o7G-dE-Nhq"/>
+                                    <action selector="signUPBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FRP-dd-1x0"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTM-MW-kbU">
@@ -97,7 +97,7 @@
                                 </constraints>
                                 <state key="normal" title="Login With Facebook" image="sign-in-facebook"/>
                                 <connections>
-                                    <action selector="fbLoginBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hk0-OD-SBy"/>
+                                    <action selector="fbLoginBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7bN-8Y-TVf"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -128,9 +128,9 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="emailText" destination="l0x-5Y-sFp" id="4GL-mR-9k9"/>
-                        <outlet property="facebookBtn" destination="eTM-MW-kbU" id="IZo-kr-OeW"/>
-                        <outlet property="passwordText" destination="I2o-2L-i41" id="yn2-M7-Y5c"/>
+                        <outlet property="emailText" destination="l0x-5Y-sFp" id="lRB-RO-pr2"/>
+                        <outlet property="facebookBtn" destination="eTM-MW-kbU" id="sJY-kn-6Sv"/>
+                        <outlet property="passwordText" destination="I2o-2L-i41" id="KCG-CC-Vem"/>
                         <segue destination="i5t-Q4-VIf" kind="show" identifier="loggedIn" id="6z9-2V-cAc"/>
                     </connections>
                 </viewController>
@@ -141,7 +141,7 @@
         <!--Post Pin View Controller-->
         <scene sceneID="srN-Ou-Sfa">
             <objects>
-                <viewController id="41n-Ql-l1X" customClass="postPinViewController" customModule="onTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="41n-Ql-l1X" customClass="PostPinViewController" customModule="onTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2GF-Y8-zVa"/>
                         <viewControllerLayoutGuide type="bottom" id="e67-yF-9Js"/>
@@ -282,7 +282,7 @@
         <!--Table View Controller-->
         <scene sceneID="uyI-Px-R0i">
             <objects>
-                <tableViewController id="LgK-1a-gJo" customClass="tableViewController" customModule="onTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="LgK-1a-gJo" customClass="TableViewController" customModule="onTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="28" sectionFooterHeight="28" id="QsU-dZ-ha4">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -341,8 +341,7 @@
                             </barButtonItem>
                             <barButtonItem image="map-marker" id="o8J-eq-EYQ">
                                 <connections>
-                                    <action selector="newPinPostBtn:" destination="LgK-1a-gJo" id="U59-wa-slh"/>
-                                    <segue destination="41n-Ql-l1X" kind="presentation" identifier="newPinSegue" id="OLs-Ef-v7n"/>
+                                    <segue destination="41n-Ql-l1X" kind="presentation" identifier="newPinSegue" id="Y8h-Ge-AVg"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -355,7 +354,7 @@
         <!--Map View Controller-->
         <scene sceneID="QDt-gf-NOf">
             <objects>
-                <viewController id="PAi-xo-bfT" customClass="mapViewController" customModule="onTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="PAi-xo-bfT" customClass="MapViewController" customModule="onTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CUq-Zw-C3W"/>
                         <viewControllerLayoutGuide type="bottom" id="fYJ-wd-Slu"/>
@@ -366,14 +365,24 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="jPg-rE-ufn">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <connections>
+                                    <outlet property="delegate" destination="PAi-xo-bfT" id="Jj5-WI-IPo"/>
+                                </connections>
                             </mapView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="t0i-e5-rov">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <color key="backgroundColor" red="0.98043292760848999" green="0.97220855951309204" blue="0.99274474382400513" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="color" red="0.9950670599937439" green="0.25180113315582275" blue="0.0070423469878733158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="jPg-rE-ufn" secondAttribute="trailing" constant="-20" id="RqO-TE-Zqb"/>
+                            <constraint firstItem="t0i-e5-rov" firstAttribute="centerY" secondItem="LMW-aM-jwV" secondAttribute="centerY" id="XHd-ZU-Zdr"/>
                             <constraint firstItem="jPg-rE-ufn" firstAttribute="top" secondItem="CUq-Zw-C3W" secondAttribute="bottom" id="d14-58-qGb"/>
                             <constraint firstItem="jPg-rE-ufn" firstAttribute="leading" secondItem="LMW-aM-jwV" secondAttribute="leadingMargin" constant="-20" id="gEo-Tj-Ap3"/>
                             <constraint firstItem="fYJ-wd-Slu" firstAttribute="top" secondItem="jPg-rE-ufn" secondAttribute="bottom" id="sdA-f0-tto"/>
+                            <constraint firstItem="t0i-e5-rov" firstAttribute="centerX" secondItem="LMW-aM-jwV" secondAttribute="centerX" id="wyb-o6-y5b"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="zh6-vD-k93">
@@ -390,13 +399,13 @@
                             </barButtonItem>
                             <barButtonItem image="map-marker" id="HnN-ul-lMh">
                                 <connections>
-                                    <action selector="addPinLocation:" destination="PAi-xo-bfT" id="Bp8-4c-ODZ"/>
-                                    <segue destination="41n-Ql-l1X" kind="presentation" identifier="newPinSegue" id="WcW-Xp-uqh"/>
+                                    <segue destination="41n-Ql-l1X" kind="presentation" identifier="newPinSegue" id="mf0-9l-1oY"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityInd" destination="t0i-e5-rov" id="MSC-lg-cbv"/>
                         <outlet property="mapView" destination="jPg-rE-ufn" id="p0A-AM-sfs"/>
                     </connections>
                 </viewController>
@@ -473,6 +482,6 @@
         <image name="sign-in-facebook" width="1071" height="205"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WcW-Xp-uqh"/>
+        <segue reference="mf0-9l-1oY"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6B1CE9B61CC1C7A100A174DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1CE9B51CC1C7A100A174DA /* AppDelegate.swift */; };
-		6B1CE9B81CC1C7A100A174DA /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1CE9B71CC1C7A100A174DA /* loginViewController.swift */; };
-		6B1CE9BB1CC1C7A100A174DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B1CE9B91CC1C7A100A174DA /* Main.storyboard */; };
+		6B1CE9B81CC1C7A100A174DA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1CE9B71CC1C7A100A174DA /* LoginViewController.swift */; };
 		6B1CE9BE1CC1C7A100A174DA /* onTheMap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6B1CE9BC1CC1C7A100A174DA /* onTheMap.xcdatamodeld */; };
 		6B1CE9C01CC1C7A100A174DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B1CE9BF1CC1C7A100A174DA /* Assets.xcassets */; };
 		6B1CE9C31CC1C7A100A174DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B1CE9C11CC1C7A100A174DA /* LaunchScreen.storyboard */; };
@@ -18,17 +17,18 @@
 		6B6A8CBB1CC47B98004DCC6F /* labelClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8CBA1CC47B98004DCC6F /* labelClass.swift */; };
 		6B6A8CC01CC52EB9004DCC6F /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6A8CBF1CC52EB9004DCC6F /* FBSDKCoreKit.framework */; };
 		6B6A8CC21CC52EC1004DCC6F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6A8CC11CC52EC1004DCC6F /* FBSDKLoginKit.framework */; };
-		6B6A8CE41CC960D1004DCC6F /* mapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8CE31CC960D1004DCC6F /* mapViewController.swift */; };
-		6B6A8CE61CC960E9004DCC6F /* tableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8CE51CC960E9004DCC6F /* tableViewController.swift */; };
+		6B6A8CE41CC960D1004DCC6F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8CE31CC960D1004DCC6F /* MapViewController.swift */; };
+		6B6A8CE61CC960E9004DCC6F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8CE51CC960E9004DCC6F /* TableViewController.swift */; };
 		6B6A8CE81CCA82F5004DCC6F /* udacityApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8CE71CCA82F5004DCC6F /* udacityApi.swift */; };
 		6B6A8CEA1CCAAB5C004DCC6F /* studentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8CE91CCAAB5C004DCC6F /* studentInformation.swift */; };
 		6B6A8CEE1CCAC596004DCC6F /* parseStudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8CED1CCAC596004DCC6F /* parseStudentLocation.swift */; };
 		6B6A8CF41CCB259B004DCC6F /* tableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8CF31CCB259B004DCC6F /* tableViewCell.swift */; };
-		6B6A8D021CCBF2F3004DCC6F /* postPinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8D011CCBF2F3004DCC6F /* postPinViewController.swift */; };
+		6B6A8D021CCBF2F3004DCC6F /* PostPinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8D011CCBF2F3004DCC6F /* PostPinViewController.swift */; };
 		6B6A8D041CCBF5BC004DCC6F /* textFieldClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8D031CCBF5BC004DCC6F /* textFieldClass.swift */; };
 		6B6A8D081CCE8BD4004DCC6F /* apiConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8D071CCE8BD4004DCC6F /* apiConstants.swift */; };
 		6B6A8D0A1CCE9AE7004DCC6F /* udacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8D091CCE9AE7004DCC6F /* udacityClient.swift */; };
-		6B6A8D0C1CCFE732004DCC6F /* customNavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8D0B1CCFE732004DCC6F /* customNavigationItem.swift */; };
+		6B6A8D0E1CD1A2D2004DCC6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B6A8D0D1CD1A2D2004DCC6F /* Main.storyboard */; };
+		6B6A8D121CD27334004DCC6F /* clientClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6A8D111CD27334004DCC6F /* clientClass.swift */; };
 		F3A8E617E819191511DB7322 /* libPods-onTheMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4279BA7489789063FD6C7C00 /* libPods-onTheMap.a */; };
 /* End PBXBuildFile section */
 
@@ -54,8 +54,7 @@
 		5F4BB28FF93EBDB60A7294DB /* Pods-onTheMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-onTheMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-onTheMap/Pods-onTheMap.release.xcconfig"; sourceTree = "<group>"; };
 		6B1CE9B21CC1C7A100A174DA /* onTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = onTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B1CE9B51CC1C7A100A174DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6B1CE9B71CC1C7A100A174DA /* loginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
-		6B1CE9BA1CC1C7A100A174DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6B1CE9B71CC1C7A100A174DA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6B1CE9BD1CC1C7A100A174DA /* onTheMap.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = onTheMap.xcdatamodel; sourceTree = "<group>"; };
 		6B1CE9BF1CC1C7A100A174DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B1CE9C21CC1C7A100A174DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -70,17 +69,18 @@
 		6B6A8CBF1CC52EB9004DCC6F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = onTheMap/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		6B6A8CC11CC52EC1004DCC6F /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = onTheMap/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		6B6A8CCF1CC677AB004DCC6F /* onTheMap-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "onTheMap-Bridging-Header.h"; sourceTree = "<group>"; };
-		6B6A8CE31CC960D1004DCC6F /* mapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapViewController.swift; sourceTree = "<group>"; };
-		6B6A8CE51CC960E9004DCC6F /* tableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tableViewController.swift; sourceTree = "<group>"; };
+		6B6A8CE31CC960D1004DCC6F /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		6B6A8CE51CC960E9004DCC6F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		6B6A8CE71CCA82F5004DCC6F /* udacityApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = udacityApi.swift; sourceTree = "<group>"; };
 		6B6A8CE91CCAAB5C004DCC6F /* studentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = studentInformation.swift; sourceTree = "<group>"; };
 		6B6A8CED1CCAC596004DCC6F /* parseStudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = parseStudentLocation.swift; sourceTree = "<group>"; };
 		6B6A8CF31CCB259B004DCC6F /* tableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tableViewCell.swift; sourceTree = "<group>"; };
-		6B6A8D011CCBF2F3004DCC6F /* postPinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = postPinViewController.swift; sourceTree = "<group>"; };
+		6B6A8D011CCBF2F3004DCC6F /* PostPinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostPinViewController.swift; sourceTree = "<group>"; };
 		6B6A8D031CCBF5BC004DCC6F /* textFieldClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textFieldClass.swift; sourceTree = "<group>"; };
 		6B6A8D071CCE8BD4004DCC6F /* apiConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = apiConstants.swift; sourceTree = "<group>"; };
 		6B6A8D091CCE9AE7004DCC6F /* udacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = udacityClient.swift; path = ../udacityClient.swift; sourceTree = "<group>"; };
-		6B6A8D0B1CCFE732004DCC6F /* customNavigationItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = customNavigationItem.swift; sourceTree = "<group>"; };
+		6B6A8D0D1CD1A2D2004DCC6F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		6B6A8D111CD27334004DCC6F /* clientClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = clientClass.swift; sourceTree = "<group>"; };
 		DF74247FB12E7C84B280561D /* Pods-onTheMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-onTheMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-onTheMap/Pods-onTheMap.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -142,13 +142,12 @@
 				6B6A8CBD1CC47C48004DCC6F /* view */,
 				6B6A8CBC1CC47C42004DCC6F /* model */,
 				6B1CE9B51CC1C7A100A174DA /* AppDelegate.swift */,
-				6B1CE9B91CC1C7A100A174DA /* Main.storyboard */,
+				6B6A8D0D1CD1A2D2004DCC6F /* Main.storyboard */,
 				6B1CE9BF1CC1C7A100A174DA /* Assets.xcassets */,
 				6B1CE9C11CC1C7A100A174DA /* LaunchScreen.storyboard */,
 				6B1CE9C41CC1C7A100A174DA /* Info.plist */,
 				6B1CE9BC1CC1C7A100A174DA /* onTheMap.xcdatamodeld */,
 				6B6A8CCF1CC677AB004DCC6F /* onTheMap-Bridging-Header.h */,
-				6B6A8D0B1CCFE732004DCC6F /* customNavigationItem.swift */,
 			);
 			path = onTheMap;
 			sourceTree = "<group>";
@@ -178,6 +177,7 @@
 				6B6A8CE71CCA82F5004DCC6F /* udacityApi.swift */,
 				6B6A8CE91CCAAB5C004DCC6F /* studentInformation.swift */,
 				6B6A8CED1CCAC596004DCC6F /* parseStudentLocation.swift */,
+				6B6A8D111CD27334004DCC6F /* clientClass.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -195,10 +195,10 @@
 		6B6A8CBE1CC47C4E004DCC6F /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				6B1CE9B71CC1C7A100A174DA /* loginViewController.swift */,
-				6B6A8CE31CC960D1004DCC6F /* mapViewController.swift */,
-				6B6A8CE51CC960E9004DCC6F /* tableViewController.swift */,
-				6B6A8D011CCBF2F3004DCC6F /* postPinViewController.swift */,
+				6B1CE9B71CC1C7A100A174DA /* LoginViewController.swift */,
+				6B6A8CE31CC960D1004DCC6F /* MapViewController.swift */,
+				6B6A8CE51CC960E9004DCC6F /* TableViewController.swift */,
+				6B6A8D011CCBF2F3004DCC6F /* PostPinViewController.swift */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -340,9 +340,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B6A8D0E1CD1A2D2004DCC6F /* Main.storyboard in Resources */,
 				6B1CE9C31CC1C7A100A174DA /* LaunchScreen.storyboard in Resources */,
 				6B1CE9C01CC1C7A100A174DA /* Assets.xcassets in Resources */,
-				6B1CE9BB1CC1C7A100A174DA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,17 +419,17 @@
 				6B6A8CEE1CCAC596004DCC6F /* parseStudentLocation.swift in Sources */,
 				6B6A8CF41CCB259B004DCC6F /* tableViewCell.swift in Sources */,
 				6B6A8D081CCE8BD4004DCC6F /* apiConstants.swift in Sources */,
-				6B6A8D021CCBF2F3004DCC6F /* postPinViewController.swift in Sources */,
+				6B6A8D121CD27334004DCC6F /* clientClass.swift in Sources */,
+				6B6A8D021CCBF2F3004DCC6F /* PostPinViewController.swift in Sources */,
 				6B6A8CEA1CCAAB5C004DCC6F /* studentInformation.swift in Sources */,
 				6B6A8CE81CCA82F5004DCC6F /* udacityApi.swift in Sources */,
 				6B6A8D041CCBF5BC004DCC6F /* textFieldClass.swift in Sources */,
 				6B1CE9BE1CC1C7A100A174DA /* onTheMap.xcdatamodeld in Sources */,
-				6B6A8CE61CC960E9004DCC6F /* tableViewController.swift in Sources */,
+				6B6A8CE61CC960E9004DCC6F /* TableViewController.swift in Sources */,
 				6B6A8CBB1CC47B98004DCC6F /* labelClass.swift in Sources */,
-				6B1CE9B81CC1C7A100A174DA /* loginViewController.swift in Sources */,
-				6B6A8CE41CC960D1004DCC6F /* mapViewController.swift in Sources */,
+				6B1CE9B81CC1C7A100A174DA /* LoginViewController.swift in Sources */,
+				6B6A8CE41CC960D1004DCC6F /* MapViewController.swift in Sources */,
 				6B1CE9B61CC1C7A100A174DA /* AppDelegate.swift in Sources */,
-				6B6A8D0C1CCFE732004DCC6F /* customNavigationItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,14 +465,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6B1CE9B91CC1C7A100A174DA /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6B1CE9BA1CC1C7A100A174DA /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		6B1CE9C11CC1C7A100A174DA /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

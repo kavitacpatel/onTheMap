@@ -33,19 +33,25 @@ class udacityApi : parseStudentLocation
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = httpBodyText.dataUsingEncoding(NSUTF8StringEncoding)
         let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5))
-            if error != nil
+         let task = session.dataTaskWithRequest(request) { data, response, error in
+            if data != nil
             {
-                completion(nil, error)
+              let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5))
+              if error != nil
+                {
+                    completion(nil, error)
+                }
+                else
+                {
+                    self.parsedResult(newData, completionHandler: { (result, err) in
+                        completion(result, nil)
+                    })
+                }
             }
             else
             {
-                self.parsedResult(newData, completionHandler: { (result, err) in
-                    completion(result, nil)
-                })
+                completion(nil,nil)
             }
-
         }
         task.resume()
     }
@@ -56,6 +62,8 @@ class udacityApi : parseStudentLocation
         let request = NSMutableURLRequest(URL: NSURL(string: "\(USER_URL)\(studentid)")!)
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
+        if data != nil
+        {
             let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5))
             if error != nil
             {
@@ -66,11 +74,17 @@ class udacityApi : parseStudentLocation
                 self.parsedResult(newData, completionHandler: { (result, err) in
                     completionHandler(result, nil)
                 })
-            }        }
+            }
+        }
+        else
+        {
+            completionHandler(nil, nil)
+        }
+        }
         task.resume()
     }
     //If user has signed up Udacity with facebook than Login
-    func fbLogin (token: String, completion: (NSData?, NSURLResponse?, NSError?) -> Void)
+    func fbLogin (token: String, completion: (NSData?, NSError?) -> Void)
     {
         let request = NSMutableURLRequest(URL: NSURL(string: "\(SESSION_URL)")!)
         request.HTTPMethod = "POST"
@@ -79,7 +93,14 @@ class udacityApi : parseStudentLocation
         request.HTTPBody = "{\"facebook_mobile\": {\"access_token\": \"\(token)\"}}".dataUsingEncoding(NSUTF8StringEncoding)
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
-             completion(data, response, error)
+            if data != nil
+            {
+             completion(data, error)
+            }
+            else
+            {
+              completion(nil, nil)
+            }
         }
         task.resume()
     }
@@ -107,8 +128,7 @@ class udacityApi : parseStudentLocation
     //Get 100 Students in order
     func loadStudents(loadStudentsCompletion: (NSData?, NSURLResponse?, NSError?)->Void)
     {
-       // let request = NSMutableURLRequest(URL: NSURL(string: "\(BASE_URL)?limit=100&order=-updatedAt")!)
-       let request = NSMutableURLRequest(URL: NSURL(string: "\(BASE_URL)")!)
+        let request = NSMutableURLRequest(URL: NSURL(string: "\(BASE_URL)?limit=100&order=-updatedAt")!)
         request.addValue("\(ParseAPIId)", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("\(ParseAPIKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = NSURLSession.sharedSession()

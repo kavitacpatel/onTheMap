@@ -9,29 +9,45 @@
 import UIKit
 import MapKit
 
-class mapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate {
 
+    @IBOutlet weak var activityInd: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView!
     let locationManager = CLLocationManager()
     let user = udacityClient()
-    override func viewDidLoad() {
+    let parseObj = parseStudentLocation()
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         navigationItem.title = "On The Map"
         mapView.delegate = self
-
+        activityInd.hidden = false
     }
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(animated)
+        activityInd.hidden = true
+        activityInd.startAnimating()
         refreshData()
     }
+    
+    func mapViewDidFinishLoadingMap(mapView: MKMapView)
+    {
+        activityInd.hidden = false
+        activityInd.stopAnimating()
+    }
+    func mapViewDidFailLoadingMap(mapView: MKMapView, withError error: NSError)
+    {
+        activityInd.hidden = true
+        activityInd.startAnimating()
+    }
+    
     func refreshData()
     {
         mapView.removeAnnotations(self.mapView.annotations)
         locationAuthStatus()
-       // parseStudentLocation.sharedInstance.studentInformations.removeAll()
         var annotations = [MKPointAnnotation]()
-        parseStudentLocation.sharedInstance.getStudentLocation
+        parseObj.getStudentLocation
         { (data, err) in
             if err == nil
             {
@@ -40,7 +56,7 @@ class mapViewController: UIViewController, MKMapViewDelegate {
                     for result in list
                     {
                         let listobj = studentInformation(result: result)
-                        parseStudentLocation.sharedInstance.locations.append(listobj)
+                        clientClass.sharedInstance.locations.append(listobj)
                         let lat = CLLocationDegrees(listobj.latitude)
                         let long = CLLocationDegrees(listobj.longitude)
                         let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
@@ -64,6 +80,8 @@ class mapViewController: UIViewController, MKMapViewDelegate {
 
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView?
     {
+        activityInd.stopAnimating()
+        activityInd.hidden = true
         let reuseId = "pin"
         var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
         
@@ -82,14 +100,10 @@ class mapViewController: UIViewController, MKMapViewDelegate {
     {
         if control == view.rightCalloutAccessoryView
         {
-            let urlStr = view.annotation?.subtitle
-            if urlStr == nil
+            if (view.annotation?.subtitle)! != nil
             {
-                alertMsg("Link Error", msg: "Student's Link is Nil" )
-            }
-            else
-            {
-                let url = NSURL(string: (urlStr)!!)
+              let urlStr: String? = ((view.annotation?.subtitle)!)!
+              let url = NSURL(string: (urlStr)!)
                 if UIApplication.sharedApplication().canOpenURL(url!)
                 {
                       UIApplication.sharedApplication().openURL(url!)
@@ -99,8 +113,13 @@ class mapViewController: UIViewController, MKMapViewDelegate {
                     alertMsg("Link Error", msg: "Student's Link is Not Valid Formar" )
                 }
             }
+            else
+                {
+                    alertMsg("Link Error", msg: "Student's Link is Nil" )
+                }
         }
     }
+   
     @IBAction func refreshBtn(sender: AnyObject)
     {
         refreshData()
@@ -116,10 +135,7 @@ class mapViewController: UIViewController, MKMapViewDelegate {
        locationManager.requestWhenInUseAuthorization()
         }
     }
-    @IBAction func addPinLocation(sender: AnyObject)
-    {
-        performSegueWithIdentifier("newPinSegue", sender: sender)
-    }
+   
     
     @IBAction func logOutBtnPressed(sender: AnyObject)
     {
@@ -132,5 +148,6 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+        activityInd.stopAnimating()
     }
 }

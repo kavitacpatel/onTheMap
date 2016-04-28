@@ -10,7 +10,7 @@ import Foundation
 
 class udacityClient
 {
-    
+   
     struct Client {
        static var first = ""
        static var last = ""

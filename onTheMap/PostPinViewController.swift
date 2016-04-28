@@ -9,7 +9,7 @@
 import MapKit
 import UIKit
 
-class postPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate
+class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate
 {
 
     @IBOutlet weak var backView: UIView!
@@ -119,6 +119,9 @@ class postPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                     udacityClient.Client.latitude = coordinate!.latitude as Double
                     udacityClient.Client.longitude = coordinate!.longitude as Double
                     self.mapView.addAnnotations([self.annotation])
+                    //Zoom on location
+                    let region = MKCoordinateRegionMakeWithDistance(coordinate!, 2000, 2000)
+                    self.mapView.setRegion(region, animated: true)
                     self.setHIdden(false)
                 }
                 else
@@ -133,6 +136,7 @@ class postPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
         }
 
     }
+
     func textFieldShouldReturn(textField: UITextField) -> Bool
     {
         textField.resignFirstResponder()
