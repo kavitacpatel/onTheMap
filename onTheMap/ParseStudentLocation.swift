@@ -8,7 +8,7 @@
 
 import Foundation
 
-class parseStudentLocation: NSObject
+class ParseStudentLocation: NSObject
 {
    
     func getStudentLocation(completionHandler: (data: NSDictionary?, err: NSError?) -> Void )

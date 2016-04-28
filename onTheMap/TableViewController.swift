@@ -11,7 +11,7 @@ import UIKit
 class TableViewController: UITableViewController
 {
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    let parseObj = parseStudentLocation()
+    let parseObj = ParseStudentLocation()
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class TableViewController: UITableViewController
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return clientClass.sharedInstance.locations.count
+        return ClientClass.sharedInstance.locations.count
     }
 
     @IBAction func refreshBtn(sender: AnyObject)
@@ -34,23 +34,23 @@ class TableViewController: UITableViewController
     }
     @IBAction func logOutBtnPressed(sender: AnyObject)
     {
-        let udacityObj = udacityApi()
+        let udacityObj = UdacityApi()
         udacityObj.logout()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        if let cell = tableView.dequeueReusableCellWithIdentifier("tableCell", forIndexPath: indexPath) as? tableViewCell
+        if let cell = tableView.dequeueReusableCellWithIdentifier("tableCell", forIndexPath: indexPath) as? TableViewCell
         {
-            cell.configCell( clientClass.sharedInstance.locations[indexPath.row])
+            cell.configCell( ClientClass.sharedInstance.locations[indexPath.row])
             return cell
         }
         return UITableViewCell()
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let url = NSURL(string: ( clientClass.sharedInstance.locations[indexPath.row].mediaURL))
+        let url = NSURL(string: ( ClientClass.sharedInstance.locations[indexPath.row].mediaURL))
         if url == nil
         {
             alertMsg("Link Error", msg: "Student's Link is Nil" )

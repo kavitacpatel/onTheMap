@@ -8,11 +8,11 @@
 
 import UIKit
 
-class tableViewCell: UITableViewCell {
+class TableViewCell: UITableViewCell {
 
-    @IBOutlet weak var listLbl: labelClass!
+    @IBOutlet weak var listLbl: LabelClass!
     
-    func configCell(studentObj: studentInformation)
+    func configCell(studentObj: StudentInformation)
     {
           listLbl.text = studentObj.firstName + " " + studentObj.lastName
     }

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class udacityApi : parseStudentLocation
+class UdacityApi : ParseStudentLocation
 {
     
     var userID: String?
@@ -107,6 +107,11 @@ class udacityApi : parseStudentLocation
         
     func logout()
     {
+        if FBSDKAccessToken.currentAccessToken() != nil
+        {
+            let loginManager = FBSDKLoginManager()
+            loginManager.logOut()
+        }
         let request = NSMutableURLRequest(URL: NSURL(string: "\(SESSION_URL)")!)
         request.HTTPMethod = "DELETE"
         var xsrfCookie: NSHTTPCookie? = nil

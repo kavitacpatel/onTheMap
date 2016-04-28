@@ -8,7 +8,7 @@
 
 import UIKit
 
-class labelClass: UILabel {
+class LabelClass: UILabel {
 
     override func awakeFromNib() {
         

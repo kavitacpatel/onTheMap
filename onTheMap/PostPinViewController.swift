@@ -19,8 +19,9 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var studyLbl: UILabel!
     @IBOutlet weak var locationTxt: UITextField!
+    @IBOutlet weak var activityInd: UIActivityIndicatorView!
     var Id: String?
-    let user = udacityClient()
+    let user = UdacityClient()
     let annotation = MKPointAnnotation()
     
     override func viewDidLoad()
@@ -28,10 +29,12 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool)
+    {
         super.viewWillAppear(true)
-        let studentObj = parseStudentLocation()
-        studentObj.existsStudentLocation(udacityClient.Client.uniqueKey) { (data, error)-> Void in
+        activityInd.hidden = true
+        let studentObj = ParseStudentLocation()
+        studentObj.existsStudentLocation(UdacityClient.Client.uniqueKey) { (data, error)-> Void in
                if error == nil
                {
                     if data?.count > 0
@@ -41,8 +44,8 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                             let result = dictionary["results"] as? [[String: AnyObject]]
                             if result?.count > 0
                             {
-                            udacityClient.Client.objectId = result![0]["objectId"] as! String
-                            self.Id =  udacityClient.Client.objectId
+                            UdacityClient.Client.objectId = result![0]["objectId"] as! String
+                            self.Id =  UdacityClient.Client.objectId
                             }
                         }
                     }
@@ -72,13 +75,14 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
     }
     @IBAction func findOnMapBtnPressed(sender: AnyObject)
     {
-        if udacityClient.Client.objectId != ""
+        //find location on map
+        if UdacityClient.Client.objectId != ""
         {
 
            let alert = UIAlertController(title: "Update?", message: "You Already Have a Location. Do You Want To Overwrite?", preferredStyle: .Alert)
            let updateAction = UIAlertAction(title: "Overwrite", style: .Default)
            { (action) in
-              udacityClient.Client.mapString = self.locationTxt.text!
+              UdacityClient.Client.mapString = self.locationTxt.text!
               self.overWriteData()
             }
            let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action) in
@@ -93,7 +97,7 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
         }
         else
         {
-            udacityClient.Client.mapString = self.locationTxt.text!
+            UdacityClient.Client.mapString = self.locationTxt.text!
             self.overWriteData()
         }
         
@@ -101,8 +105,11 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
     
     func overWriteData()
     {
+        //Overwrite location if user already have it
         if locationTxt.text != nil
         {
+            activityInd.hidden = false
+            activityInd.startAnimating()
             CLGeocoder().geocodeAddressString(locationTxt.text!, completionHandler: { (placeMark: [CLPlacemark]?,err: NSError?)-> Void in
                 if err == nil
                 {
@@ -112,12 +119,14 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                         self.alertMsg("FindOnMap-Error", msg: "Please Enter Valid Location.")
                         return
                     }
+                    self.activityInd.hidden = true
+                    self.activityInd.stopAnimating()
                     self.annotation.coordinate = coordinate!
                     self.annotation.subtitle = self.shareLinkTxt.text
                     self.annotation.title = ""
-                    udacityClient.Client.mapString = self.locationTxt.text!
-                    udacityClient.Client.latitude = coordinate!.latitude as Double
-                    udacityClient.Client.longitude = coordinate!.longitude as Double
+                    UdacityClient.Client.mapString = self.locationTxt.text!
+                    UdacityClient.Client.latitude = coordinate!.latitude as Double
+                    UdacityClient.Client.longitude = coordinate!.longitude as Double
                     self.mapView.addAnnotations([self.annotation])
                     //Zoom on location
                     let region = MKCoordinateRegionMakeWithDistance(coordinate!, 2000, 2000)
@@ -144,13 +153,14 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
     }
     @IBAction func submitBtnPressed(sender: AnyObject)
     {
+        //submit location
         if validUrl(shareLinkTxt.text!) && shareLinkTxt.text != nil
         {
-                       udacityClient.Client.mediaURL = self.shareLinkTxt.text!
+                       UdacityClient.Client.mediaURL = self.shareLinkTxt.text!
                         self.setHIdden(true)
                         
-                        let clientDict = self.user.clientDict(udacityClient.Client.first, last: udacityClient.Client.last, latitude: udacityClient.Client.latitude, longitude: udacityClient.Client.longitude, mapstring: udacityClient.Client.mapString, mediaurl: udacityClient.Client.mediaURL, objectid: udacityClient.Client.objectId, uniqueid: udacityClient.Client.uniqueKey) as NSDictionary
-                        let saveLocation = parseStudentLocation()
+                        let clientDict = self.user.clientDict(UdacityClient.Client.first, last: UdacityClient.Client.last, latitude: UdacityClient.Client.latitude, longitude: UdacityClient.Client.longitude, mapstring: UdacityClient.Client.mapString, mediaurl: UdacityClient.Client.mediaURL, objectid: UdacityClient.Client.objectId, uniqueid: UdacityClient.Client.uniqueKey) as NSDictionary
+                        let saveLocation = ParseStudentLocation()
                         if let objectId = self.Id
                         {
                             // if user exists than update

@@ -8,12 +8,12 @@
 
 import Foundation
 
-class clientClass: AnyObject
+class ClientClass: AnyObject
 {
-    static let sharedInstance = clientClass()
-    var locations: [studentInformation]
-     init()
+    static let sharedInstance = ClientClass()
+    var locations: [StudentInformation]
+    private init()
      {
-        locations = [studentInformation]()
+        locations = [StudentInformation]()
     }
 }

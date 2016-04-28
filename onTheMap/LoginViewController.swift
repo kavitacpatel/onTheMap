@@ -35,6 +35,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func emailLoginBtnPressed(sender: AnyObject)
     {
+        //Email Login
         if emailText.text == "" || passwordText.text == ""
         {
             alertMsg("Udacity Login", msg: "Please Enter Valid Email/ Password." )
@@ -42,7 +43,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         else
         {
-            let udacityObj = udacityApi()
+            let udacityObj = UdacityApi()
             udacityObj.login(self.emailText.text!, password: self.passwordText.text!) { (data: NSDictionary?,error: NSError?)-> Void in
                   if data == nil && error == nil
                   {
@@ -69,8 +70,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
     @IBAction func fbLoginBtnPressed(sender: AnyObject)
     {
+        //Facebook Login
          let fbLogin = FBSDKLoginManager()
             fbLogin.logInWithReadPermissions(["email"], fromViewController: self, handler: { (fbResult: FBSDKLoginManagerLoginResult!,err:  NSError!) in
                 if err != nil
@@ -85,7 +88,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 else
                 {
                     let accesstoken = FBSDKAccessToken.currentAccessToken().tokenString
-                      let udacityObj = udacityApi()
+                      let udacityObj = UdacityApi()
                        udacityObj.fbLogin(accesstoken, completion: { (data: NSData? ,error: NSError?) in
                         if data == nil && error == nil
                         {
@@ -111,6 +114,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     func returnFBUserData()
     {
+        // return Facebook User
         let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id, first_name, last_name"])
         graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
             
@@ -120,14 +124,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             else
             {
-                udacityClient.Client.uniqueKey = result.valueForKey("id") as! String!
-                udacityClient.Client.first = result.valueForKey("first_name") as! String!
-                udacityClient.Client.last = result.valueForKey("last_name") as! String!
+                UdacityClient.Client.uniqueKey = result.valueForKey("id") as! String!
+                UdacityClient.Client.first = result.valueForKey("first_name") as! String!
+                UdacityClient.Client.last = result.valueForKey("last_name") as! String!
             }
         })
     }
     func returnUdacityClient(result: NSDictionary)
     {
+        //retrun Udacity User
         if let error = result.valueForKeyPath("status") as? Int
         {
            if error == 403
@@ -137,7 +142,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         else
         {
-        let udacityObj = udacityApi()
+        let udacityObj = UdacityApi()
             let uniqueId  = result.valueForKeyPath("account.key") as? String
             udacityObj.getStudent(uniqueId!, completionHandler: { (result: NSDictionary?, err: NSError?) -> Void in
                 if ((err) != nil)
@@ -146,9 +151,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 }
                 else
                 {
-                udacityClient.Client.uniqueKey = uniqueId!
-                udacityClient.Client.first = result!.valueForKeyPath("user.first_name") as! String!
-                udacityClient.Client.last = result!.valueForKeyPath("user.last_name") as! String!
+                UdacityClient.Client.uniqueKey = uniqueId!
+                UdacityClient.Client.first = result!.valueForKeyPath("user.first_name") as! String!
+                UdacityClient.Client.last = result!.valueForKeyPath("user.last_name") as! String!
                 }
             })
         }

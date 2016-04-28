@@ -8,7 +8,7 @@
 
 import UIKit
 
-class textFieldClass: UITextField {
+class TextFieldClass: UITextField {
 
     override func awakeFromNib() {
         

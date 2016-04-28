@@ -178,19 +178,7 @@
                             <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fs3-OX-sXr">
                                 <rect key="frame" x="0.0" y="137" width="600" height="392"/>
                             </mapView>
-                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a Link to Share Here" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Nd6-AP-vKb">
-                                <rect key="frame" x="146" y="90" width="309" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="309" id="7gt-RO-L4k"/>
-                                    <constraint firstAttribute="height" constant="30" id="KWC-e5-Q1G"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="41n-Ql-l1X" id="zFS-CB-aVX"/>
-                                </connections>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Location" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jDj-em-Va9" customClass="textFieldClass" customModule="onTheMap" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Location" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jDj-em-Va9" customClass="TextFieldClass" customModule="onTheMap" customModuleProvider="target">
                                 <rect key="frame" x="146" y="210" width="309" height="35"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -235,9 +223,26 @@
                                     <action selector="findOnMapBtnPressed:" destination="41n-Ql-l1X" eventType="touchUpInside" id="RmV-NR-Jx2"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="keh-D0-SHo">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <color key="color" red="0.9950670599937439" green="0.25180113315582275" blue="0.0070423469878733158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a Link to Share Here" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Nd6-AP-vKb">
+                                <rect key="frame" x="146" y="90" width="309" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="309" id="7gt-RO-L4k"/>
+                                    <constraint firstAttribute="height" constant="30" id="KWC-e5-Q1G"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="41n-Ql-l1X" id="zFS-CB-aVX"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="keh-D0-SHo" firstAttribute="centerY" secondItem="mKM-Wt-6bm" secondAttribute="centerY" id="1gI-gT-Mtz"/>
                             <constraint firstItem="e67-yF-9Js" firstAttribute="top" secondItem="0aK-ck-HDs" secondAttribute="bottom" constant="33" id="1jQ-On-M3I"/>
                             <constraint firstItem="kfR-Ss-Rpf" firstAttribute="leading" secondItem="mKM-Wt-6bm" secondAttribute="leadingMargin" constant="-20" id="4vS-qV-bcz"/>
                             <constraint firstItem="0aK-ck-HDs" firstAttribute="centerX" secondItem="mKM-Wt-6bm" secondAttribute="centerX" id="8eF-vD-MTD"/>
@@ -252,6 +257,7 @@
                             <constraint firstItem="90L-bw-ecz" firstAttribute="top" secondItem="2GF-Y8-zVa" secondAttribute="bottom" id="g1G-k4-gzP"/>
                             <constraint firstItem="Nd6-AP-vKb" firstAttribute="centerX" secondItem="mKM-Wt-6bm" secondAttribute="centerX" id="gZS-hL-FUn"/>
                             <constraint firstItem="GDe-3h-tw1" firstAttribute="trailing" secondItem="mKM-Wt-6bm" secondAttribute="trailingMargin" id="hIj-on-2Ef"/>
+                            <constraint firstItem="keh-D0-SHo" firstAttribute="centerX" secondItem="mKM-Wt-6bm" secondAttribute="centerX" id="hj3-nZ-aTH"/>
                             <constraint firstItem="kfR-Ss-Rpf" firstAttribute="leading" secondItem="mKM-Wt-6bm" secondAttribute="leadingMargin" constant="-20" id="kBb-k5-QFn"/>
                             <constraint firstItem="90L-bw-ecz" firstAttribute="centerX" secondItem="mKM-Wt-6bm" secondAttribute="centerX" id="kIb-Qn-h2r"/>
                             <constraint firstAttribute="trailingMargin" secondItem="kfR-Ss-Rpf" secondAttribute="trailing" constant="-20" id="lFT-Vh-Hhd"/>
@@ -265,6 +271,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityInd" destination="keh-D0-SHo" id="jBu-k5-1Sv"/>
                         <outlet property="backView" destination="kfR-Ss-Rpf" id="xvG-zf-VmU"/>
                         <outlet property="findOnMapBtn" destination="gbY-9F-Psk" id="8PX-al-vww"/>
                         <outlet property="locationTxt" destination="jDj-em-Va9" id="4lw-Lj-EEI"/>
@@ -482,6 +489,6 @@
         <image name="sign-in-facebook" width="1071" height="205"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="mf0-9l-1oY"/>
+        <segue reference="Y8h-Ge-AVg"/>
     </inferredMetricsTieBreakers>
 </document>

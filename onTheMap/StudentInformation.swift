@@ -8,7 +8,7 @@
 
 import Foundation
 
-   struct studentInformation {
+   struct StudentInformation {
         var firstName: String
         var lastName: String
         var latitude: Double
@@ -30,12 +30,12 @@ import Foundation
             uniqueKey = result.valueForKeyPath("uniqueKey") as! String
             
         }
-       static func locationsFromResults(results: [[String : AnyObject]]) -> [studentInformation]
+       static func locationsFromResults(results: [[String : AnyObject]]) -> [StudentInformation]
        {
-         var locations = [studentInformation]()
+         var locations = [StudentInformation]()
          for result in results
          {
-            locations.append(studentInformation(result: result))
+            locations.append(StudentInformation(result: result))
          }
         return locations
     }

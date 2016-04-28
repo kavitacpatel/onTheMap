@@ -14,36 +14,36 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var activityInd: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView!
     let locationManager = CLLocationManager()
-    let user = udacityClient()
-    let parseObj = parseStudentLocation()
+    let user = UdacityClient()
+    let parseObj = ParseStudentLocation()
     override func viewDidLoad()
     {
         super.viewDidLoad()
         navigationItem.title = "On The Map"
         mapView.delegate = self
-        activityInd.hidden = false
     }
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(animated)
-        activityInd.hidden = true
+        activityInd.hidden = false
         activityInd.startAnimating()
         refreshData()
     }
     
     func mapViewDidFinishLoadingMap(mapView: MKMapView)
     {
-        activityInd.hidden = false
+        activityInd.hidden = true
         activityInd.stopAnimating()
     }
     func mapViewDidFailLoadingMap(mapView: MKMapView, withError error: NSError)
     {
-        activityInd.hidden = true
+        activityInd.hidden = false
         activityInd.startAnimating()
     }
     
     func refreshData()
     {
+        //reload map with new data
         mapView.removeAnnotations(self.mapView.annotations)
         locationAuthStatus()
         var annotations = [MKPointAnnotation]()
@@ -53,10 +53,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             {
                 if let list = data!["results"] as? [[String: AnyObject]]
                 {
+                    print(list)
                     for result in list
                     {
-                        let listobj = studentInformation(result: result)
-                        clientClass.sharedInstance.locations.append(listobj)
+                        print(result)
+                        let listobj = StudentInformation(result: result)
+                        ClientClass.sharedInstance.locations.append(listobj)
                         let lat = CLLocationDegrees(listobj.latitude)
                         let long = CLLocationDegrees(listobj.longitude)
                         let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
@@ -69,6 +71,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     dispatch_async(dispatch_get_main_queue()) {
                         self.mapView.addAnnotations(annotations)
                     }
+                }
+                else
+                {
+                    self.alertMsg("Student Info", msg: "Unauthorized-Can't Access Data.")
+                    self.activityInd.hidden = true
+                    self.activityInd.stopAnimating()
                 }
             }
             else
@@ -139,7 +147,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func logOutBtnPressed(sender: AnyObject)
     {
-        let udacityObj = udacityApi()
+        let udacityObj = UdacityApi()
         udacityObj.logout()
         dismissViewControllerAnimated(true, completion: nil)
     }
