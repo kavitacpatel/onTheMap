@@ -27,12 +27,12 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        activityInd.hidden = true
     }
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(true)
-        activityInd.hidden = true
         let studentObj = ParseStudentLocation()
         studentObj.existsStudentLocation(UdacityClient.Client.uniqueKey) { (data, error)-> Void in
                if error == nil

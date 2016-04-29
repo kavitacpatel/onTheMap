@@ -223,7 +223,7 @@
                                     <action selector="findOnMapBtnPressed:" destination="41n-Ql-l1X" eventType="touchUpInside" id="RmV-NR-Jx2"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="keh-D0-SHo">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="keh-D0-SHo">
                                 <rect key="frame" x="282" y="281" width="37" height="37"/>
                                 <color key="color" red="0.9950670599937439" green="0.25180113315582275" blue="0.0070423469878733158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
@@ -348,7 +348,7 @@
                             </barButtonItem>
                             <barButtonItem image="map-marker" id="o8J-eq-EYQ">
                                 <connections>
-                                    <segue destination="41n-Ql-l1X" kind="presentation" identifier="newPinSegue" id="Y8h-Ge-AVg"/>
+                                    <segue destination="41n-Ql-l1X" kind="show" identifier="newPinSegue" id="GvP-hg-3W8"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -406,7 +406,7 @@
                             </barButtonItem>
                             <barButtonItem image="map-marker" id="HnN-ul-lMh">
                                 <connections>
-                                    <segue destination="41n-Ql-l1X" kind="presentation" identifier="newPinSegue" id="mf0-9l-1oY"/>
+                                    <segue destination="41n-Ql-l1X" kind="show" identifier="newPinSegue" id="bbr-5D-e4A"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -489,6 +489,6 @@
         <image name="sign-in-facebook" width="1071" height="205"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Y8h-Ge-AVg"/>
+        <segue reference="bbr-5D-e4A"/>
     </inferredMetricsTieBreakers>
 </document>
