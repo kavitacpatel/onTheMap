@@ -348,7 +348,7 @@
                             </barButtonItem>
                             <barButtonItem image="map-marker" id="o8J-eq-EYQ">
                                 <connections>
-                                    <segue destination="41n-Ql-l1X" kind="show" identifier="newPinSegue" id="GvP-hg-3W8"/>
+                                    <segue destination="41n-Ql-l1X" kind="presentation" id="qKK-xM-a65"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -406,7 +406,7 @@
                             </barButtonItem>
                             <barButtonItem image="map-marker" id="HnN-ul-lMh">
                                 <connections>
-                                    <segue destination="41n-Ql-l1X" kind="show" identifier="newPinSegue" id="bbr-5D-e4A"/>
+                                    <segue destination="41n-Ql-l1X" kind="presentation" id="zTe-aL-ZZB"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -489,6 +489,6 @@
         <image name="sign-in-facebook" width="1071" height="205"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bbr-5D-e4A"/>
+        <segue reference="qKK-xM-a65"/>
     </inferredMetricsTieBreakers>
 </document>

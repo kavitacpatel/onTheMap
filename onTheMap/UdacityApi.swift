@@ -97,6 +97,10 @@ class UdacityApi : ParseStudentLocation
             {
              completion(data, error)
             }
+            else if error != nil
+            {
+                completion(nil, error)
+            }
             else
             {
               completion(nil, nil)

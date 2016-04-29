@@ -40,12 +40,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         activityInd.hidden = false
         activityInd.startAnimating()
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "newPinSegue" {
-            let newViewController = segue.destinationViewController as? PostPinViewController
-            newViewController?.title = "Add Location"
-        }
-    }
+   
     func refreshData()
     {
         //reload map with new data

@@ -28,6 +28,7 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
     {
         super.viewDidLoad()
         activityInd.hidden = true
+        activityInd.stopAnimating()
     }
     
     override func viewWillAppear(animated: Bool)
@@ -37,7 +38,7 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
         studentObj.existsStudentLocation(UdacityClient.Client.uniqueKey) { (data, error)-> Void in
                if error == nil
                {
-                    if data?.count > 0
+                    if data != nil
                     {
                         if let dictionary = data as? [String: AnyObject]
                         {
@@ -48,6 +49,11 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                             self.Id =  UdacityClient.Client.objectId
                             }
                         }
+                    }
+                   else
+                    {
+                        self.alertMsg("Connection Error", msg: "Connection Not Found")
+                        self.setHIdden(true)
                     }
                 }
             else
@@ -117,6 +123,8 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                     if (!CLLocationCoordinate2DIsValid(coordinate!))
                     {
                         self.alertMsg("FindOnMap-Error", msg: "Please Enter Valid Location.")
+                        self.activityInd.hidden = true
+                        self.activityInd.stopAnimating()
                         return
                     }
                     self.activityInd.hidden = true
@@ -135,7 +143,9 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                 }
                 else
                 {
-                    self.alertMsg("FindOnMap-Error", msg: (err?.description)!)
+                    self.alertMsg("FindOnMap-Error", msg: "Connection Not Found")
+                    self.activityInd.hidden = true
+                    self.activityInd.stopAnimating()
                 }
             })
         }
@@ -157,8 +167,6 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
         if validUrl(shareLinkTxt.text!) && shareLinkTxt.text != nil
         {
                        UdacityClient.Client.mediaURL = self.shareLinkTxt.text!
-                        self.setHIdden(true)
-                        
                         let clientDict = self.user.clientDict(UdacityClient.Client.first, last: UdacityClient.Client.last, latitude: UdacityClient.Client.latitude, longitude: UdacityClient.Client.longitude, mapstring: UdacityClient.Client.mapString, mediaurl: UdacityClient.Client.mediaURL, objectid: UdacityClient.Client.objectId, uniqueid: UdacityClient.Client.uniqueKey) as NSDictionary
                         let saveLocation = ParseStudentLocation()
                         if let objectId = self.Id
@@ -167,15 +175,23 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                             saveLocation.putStudentLocation(objectId, data: clientDict as! [String : AnyObject], completionHandler: { (result, error) in
                                 if error == nil
                                 {
-                                    dispatch_async(dispatch_get_main_queue())
+                                    if result  != nil
                                     {
-                                        self.dismissViewControllerAnimated(true, completion: nil)
-                                        self.alertMsg("Location", msg: "New Location Added Successfully")
+                                        dispatch_async(dispatch_get_main_queue())
+                                        {
+                                            self.dismissViewControllerAnimated(true, completion: nil)
+                                            self.alertMsg("Location", msg: "New Location Added Successfully")
+                                            self.setHIdden(true)
+                                        }
+                                    }
+                                    else
+                                    {
+                                        self.alertMsg("Connection Error", msg: "Connection Not Found")
                                     }
                                 }
                                 else
                                 {
-                                    self.alertMsg("Location", msg: "Location is not loaded. Try Again..")
+                                    self.alertMsg("Location", msg: "Connection Not Found")
                                 }
                             })
                         }
@@ -184,15 +200,23 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                             saveLocation.postStudentLocation(clientDict as! [String : AnyObject], completionHandler: { (result, error) in
                                 if error == nil
                                 {
-                                    dispatch_async(dispatch_get_main_queue())
+                                    if result != nil
                                     {
-                                      self.dismissViewControllerAnimated(true, completion: nil)
-                                      self.alertMsg("Location", msg: "New Location Added Successfully")
+                                        dispatch_async(dispatch_get_main_queue())
+                                        {
+                                            self.dismissViewControllerAnimated(true, completion: nil)
+                                            self.alertMsg("Location", msg: "New Location Added Successfully")
+                                             self.setHIdden(true)
+                                        }
+                                    }
+                                    else
+                                    {
+                                        self.alertMsg("Connection Error", msg: "Connection Not Found")
                                     }
                                 }
                                 else
                                 {
-                                    self.alertMsg("Location", msg: "Location is not loaded. Try Again..")
+                                    self.alertMsg("Location", msg: "Connection Not Found")
                                 }
                             })
                         }

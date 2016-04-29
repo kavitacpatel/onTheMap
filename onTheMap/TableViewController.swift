@@ -67,12 +67,7 @@ class TableViewController: UITableViewController
             }
         }
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "newPinSegue" {
-            let newViewController = segue.destinationViewController as? PostPinViewController
-            newViewController?.title = "Add Location"
-        }
-    }
+   
     func refreshData()
     {
          parseObj.getStudentLocation { (data, err) in

@@ -18,8 +18,11 @@ class ParseStudentLocation: NSObject
         request.addValue("\(ParseAPIKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
-
-            if error != nil
+           if data == nil
+           {
+               completionHandler(data: nil, err: nil)
+            }
+            else if error != nil
             {
                 completionHandler(data: nil, err: error)
             }
@@ -54,15 +57,19 @@ class ParseStudentLocation: NSObject
         }
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil
+            if data != nil
+            {
+                self.parsedResult(data!, completionHandler: { (result, err) in
+                    completionHandler(result: result, error: nil)
+                })
+            }
+            else if error != nil
             {
                 completionHandler(result: nil, error: error)
             }
             else
             {
-               self.parsedResult(data!, completionHandler: { (result, err) in
-                completionHandler(result: result, error: nil)
-               })
+               completionHandler(result: nil, error: nil)
             }
         }
         task.resume()
@@ -99,7 +106,11 @@ class ParseStudentLocation: NSObject
         }
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) {data, response, error in
-            if error != nil
+            if data == nil
+            {
+                completionHandler(result: nil, error: nil)
+            }
+            else if error != nil
             {
                 completionHandler(result: nil, error: error)
             }
@@ -123,7 +134,11 @@ class ParseStudentLocation: NSObject
         request.addValue("\(ParseAPIId)", forHTTPHeaderField: "X-Parse-Application-Id")
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil
+            if data == nil
+            {
+                completionHandler(data: nil, err: nil)
+            }
+            else if error != nil
             {
                 completionHandler(data: nil, err: error)
             }
