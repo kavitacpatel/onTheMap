@@ -27,8 +27,7 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        activityInd.hidden = true
-        activityInd.stopAnimating()
+        activityInd.hidesWhenStopped = true
     }
     
     override func viewWillAppear(animated: Bool)
@@ -144,8 +143,7 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                 else
                 {
                     self.alertMsg("FindOnMap-Error", msg: "Connection Not Found")
-                    self.activityInd.hidden = true
-                    self.activityInd.stopAnimating()
+                    self.activityInd.hidesWhenStopped = true
                 }
             })
         }
@@ -186,7 +184,10 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                                     }
                                     else
                                     {
-                                        self.alertMsg("Connection Error", msg: "Connection Not Found")
+                                        dispatch_async(dispatch_get_main_queue())
+                                        {
+                                            self.alertMsg("Connection Error", msg: "Connection Not Found")
+                                        }
                                     }
                                 }
                                 else
@@ -211,7 +212,10 @@ class PostPinViewController: UIViewController, MKMapViewDelegate, UITextFieldDel
                                     }
                                     else
                                     {
-                                        self.alertMsg("Connection Error", msg: "Connection Not Found")
+                                        dispatch_async(dispatch_get_main_queue())
+                                        {
+                                            self.alertMsg("Connection Error", msg: "Connection Not Found")
+                                        }
                                     }
                                 }
                                 else

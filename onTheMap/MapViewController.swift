@@ -51,8 +51,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         { (data, err) in
             if err == nil
             {
-                if let list = data!["results"] as? [[String: AnyObject]]
+                if data != nil
                 {
+                   if let list = data!["results"] as? [[String: AnyObject]]
+                   {
                     for result in list
                     {
                         let listobj = StudentInformation(result: result)
@@ -66,21 +68,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         annotation.subtitle = listobj.mediaURL
                         annotations.append(annotation)
                     }
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.mapView.addAnnotations(annotations)
+                       dispatch_async(dispatch_get_main_queue())
+                       {
+                            self.mapView.addAnnotations(annotations)
+                        }
+                   }
+                   else
+                    {
+                       self.alertMsg("Student Info", msg: " No Data Found.")
                     }
+                   }
+                else
+                {
+                    self.alertMsg("Connection Error", msg: "Connection Not Found")
                 }
+
+            }
                 else
                 {
                     self.alertMsg("Student Info", msg: "Unauthorized-Can't Access Data.")
                     self.activityInd.hidden = true
                     self.activityInd.stopAnimating()
                 }
-            }
-            else
-            {
-                self.alertMsg("Student Info", msg: err!.description )
-            }
         }
     }
 
